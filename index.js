@@ -49,8 +49,6 @@ app.get('/experiment/pipe', async (req, res) => {
          SUM_heapTotal += heapTotal;
 
          iteration++;
-
-         console.log(rss, external, heapTotal, heapUsed, iteration);
       }, 100);
 
 
