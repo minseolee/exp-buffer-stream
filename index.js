@@ -23,6 +23,7 @@ app.get('/experiment/buffer', async (req, res) => {
 
 app.get('/experiment/pipe', async (req, res) => {
    try {
+      const startTime = performance.now();
       let MAX_rss = 0;
       let MAX_heapTotal = 0;
       let MAX_heapUsed = 0;
@@ -50,7 +51,7 @@ app.get('/experiment/pipe', async (req, res) => {
          iteration++;
 
          console.log(rss, external, heapTotal, heapUsed, iteration);
-      }, 1);
+      }, 10);
 
 
       fs.readdir(FILE_PATH, (err, files) => {
@@ -69,7 +70,11 @@ app.get('/experiment/pipe', async (req, res) => {
 
          archive.finalize();
 
+
+         const endTime = performance.now();
          clearInterval(memoryMonitor);
+
+         console.log('run time', startTime - endTime);
          console.log('total iter', iteration);
          console.log('max', MAX_rss, MAX_external, MAX_heapUsed, MAX_heapTotal);
          console.log('avg', SUM_rss / iteration, SUM_external / iteration, SUM_heapUsed / iteration, SUM_heapTotal / iteration);

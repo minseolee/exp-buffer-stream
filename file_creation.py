@@ -14,8 +14,8 @@ def generate_json_file(file_path, size_in_bytes):
         json.dump(data, file)
 
 if __name__ == "__main__":
-    total_files = 100
-    target_file_size_mb = 5
+    total_files = 1000
+    target_file_size_mb = 2
     target_file_size_bytes = target_file_size_mb * 1024 * 1024  # MB to bytes
 
     for i in range(1, total_files + 1):
