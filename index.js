@@ -49,7 +49,7 @@ app.get('/experiment/pipe', async (req, res) => {
          SUM_heapTotal += heapTotal;
 
          iteration++;
-      }, 100);
+      }, 10);
 
 
       const files = await fs.promises.readdir(FILE_PATH)
@@ -71,10 +71,12 @@ app.get('/experiment/pipe', async (req, res) => {
       const endTime = performance.now();
       clearInterval(memoryMonitor);
 
-      console.log('run time', startTime - endTime);
+      console.log('===========RESULT============')
+      console.log('run time(ms)', endTime - startTime);
       console.log('total iter', iteration);
-      console.log('max', MAX_rss, MAX_external, MAX_heapUsed, MAX_heapTotal);
-      console.log('avg', SUM_rss / iteration, SUM_external / iteration, SUM_heapUsed / iteration, SUM_heapTotal / iteration);
+      console.log('max(bytes)', MAX_rss, MAX_external, MAX_heapUsed, MAX_heapTotal);
+      console.log('avg(bytes)', Math.floor(SUM_rss / iteration), Math.floor(SUM_external / iteration), Math.floor(SUM_heapUsed / iteration), Math.floor(SUM_heapTotal / iteration));
+      console.log('=============================')
 
       await fs.promises.rm(__dirname + `/${uuid}.zip`);
 
