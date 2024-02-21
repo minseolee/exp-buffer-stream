@@ -1,2 +1,4 @@
 /node_modules
 /.idea
+/json_files
+.DS_Store

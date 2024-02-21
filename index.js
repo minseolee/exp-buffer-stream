@@ -51,38 +51,36 @@ app.get('/experiment/pipe', async (req, res) => {
          iteration++;
 
          console.log(rss, external, heapTotal, heapUsed, iteration);
-      }, 1);
+      }, 10);
 
 
-      fs.readdir(FILE_PATH, (err, files) => {
-         if (err) return;
+      const files = await fs.promises.readdir(FILE_PATH)
 
-         const uuid = uuidV4();
-         const output = fs.createWriteStream(__dirname + `/${uuid}.zip`);
-         const archive = archiver('zip', {zlib: {level: 9}});
+      const uuid = uuidV4();
+      const output = await fs.createWriteStream(__dirname + `/${uuid}.zip`);
+      const archive = await archiver('zip', {zlib: {level: 9}});
 
-         archive.on('error', (err) => { throw err; });
+      archive.on('error', (err) => { throw err; });
 
-         archive.pipe(output);
+      archive.pipe(output);
 
-         for (const file of files)
-            archive.append(fs.createReadStream(path.join(FILE_PATH, file)), {name: file});
+      for (const file of files)
+         await archive.append(fs.createReadStream(path.join(FILE_PATH, file)), {name: file});
 
-         archive.finalize();
+      await archive.finalize();
 
 
-         const endTime = performance.now();
-         clearInterval(memoryMonitor);
+      const endTime = performance.now();
+      clearInterval(memoryMonitor);
 
-         console.log('run time', startTime - endTime);
-         console.log('total iter', iteration);
-         console.log('max', MAX_rss, MAX_external, MAX_heapUsed, MAX_heapTotal);
-         console.log('avg', SUM_rss / iteration, SUM_external / iteration, SUM_heapUsed / iteration, SUM_heapTotal / iteration);
+      console.log('run time', startTime - endTime);
+      console.log('total iter', iteration);
+      console.log('max', MAX_rss, MAX_external, MAX_heapUsed, MAX_heapTotal);
+      console.log('avg', SUM_rss / iteration, SUM_external / iteration, SUM_heapUsed / iteration, SUM_heapTotal / iteration);
 
-         fs.promises.rm(__dirname + `/${uuid}.zip`);
+      await fs.promises.rm(__dirname + `/${uuid}.zip`);
 
-         return res.status(200).send({ uuid });
-      })
+      return res.status(200).send({ uuid });
    } catch (e) {
       console.error(e);
    }
