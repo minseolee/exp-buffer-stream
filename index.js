@@ -51,7 +51,7 @@ app.get('/experiment/pipe', async (req, res) => {
          iteration++;
 
          console.log(rss, external, heapTotal, heapUsed, iteration);
-      }, 10);
+      }, 100);
 
 
       const files = await fs.promises.readdir(FILE_PATH)
