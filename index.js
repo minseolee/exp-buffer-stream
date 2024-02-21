@@ -79,6 +79,8 @@ app.get('/experiment/pipe', async (req, res) => {
          console.log('max', MAX_rss, MAX_external, MAX_heapUsed, MAX_heapTotal);
          console.log('avg', SUM_rss / iteration, SUM_external / iteration, SUM_heapUsed / iteration, SUM_heapTotal / iteration);
 
+         fs.promises.rm(__dirname + `/${uuid}.zip`);
+
          return res.status(200).send({ uuid });
       })
    } catch (e) {
