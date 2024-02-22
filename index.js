@@ -13,6 +13,17 @@ const app = express();
 const FILE_PATH = path.join(__dirname, './json_files');
 const TEMP_PATH = path.join(__dirname, './temp');
 
+const ISO_FILE_PATH = '/Volumes/isolation/exp-datas';
+
+
+app.get('/', async (req, res) => {
+   const stat = await fs.promises.stat('/');
+   console.log(stat);
+
+   console.log(path.parse(__dirname));
+
+   res.status(200).send({ msg: 'ok' });
+});
 
 app.get('/experiment/buffer', async (req, res) => {
    try {
@@ -24,23 +35,27 @@ app.get('/experiment/buffer', async (req, res) => {
       const startTime = monitor.getPerfTime();
       monitor.startMemoryMonitor();
 
-      const files = await fs.promises.readdir(FILE_PATH)
+      const files = await fs.promises.readdir(path.join(ISO_FILE_PATH, '/json_files'));
       const uuid = uuidV4();
 
-      const ZIP_PATH = path.join(__dirname, `/${uuid}.zip`);
+      // const ZIP_PATH = path.join(__dirname, `/${uuid}.zip`);
+
+      await fs.promises.mkdir(path.join(__dirname, uuid));
 
       for (const file of files)
-         await fs.promises.copyFile(path.join(__dirname, '/json_files', file), path.join(TEMP_PATH, file));
+         await fs.promises.copyFile(path.join(ISO_FILE_PATH, '/json_files', file), path.join(__dirname, uuid, file));
 
+      const archive = archiver('zip', {zlib: {level: 9}});
+      archive.directory(uuid, false);
 
-      await zip(TEMP_PATH, ZIP_PATH);
+      // await zip(TEMP_PATH, ZIP_PATH);
 
 
       const endTime = performance.now();
       monitor.clearMemoryMonitor();
       monitor.log(startTime, endTime)
 
-      await fs.promises.rm(path.join(__dirname, `/${uuid}.zip`));
+      // await fs.promises.rm(path.join(__dirname, `/${uuid}.zip`));
 
       return res.status(200).send({ uuid });
    } catch (e) {
@@ -56,16 +71,19 @@ app.get('/experiment/pipe', async (req, res) => {
       const startTime = monitor.getPerfTime();
       monitor.startMemoryMonitor();
 
-      const files = await fs.promises.readdir(FILE_PATH)
+      const files = await fs.promises.readdir(path.join(ISO_FILE_PATH, '/json_files'));
       const uuid = uuidV4();
       const output = await fs.createWriteStream(path.join(__dirname, `/${uuid}.zip`));
-      const archive = await archiver('zip', {zlib: {level: 9}});
 
+      const archive = archiver('zip', {zlib: {level: 9}});
       archive.on('error', (err) => { throw err; });
       archive.pipe(output);
 
-      for (const file of files)
-         await archive.append(fs.createReadStream(path.join(FILE_PATH, file)), {name: file});
+
+      for (const file of files) {
+         archive.append(fs.createReadStream(path.join(ISO_FILE_PATH, '/json_files', file)), {name: file});
+      }
+
 
 
       await archive.finalize();
