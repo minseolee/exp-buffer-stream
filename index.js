@@ -1,3 +1,6 @@
+delete require.cache[require.resolve('fs')];
+
+
 const express = require('express');
 const fs = require("fs");
 const zlib = require("zlib");
@@ -31,7 +34,7 @@ app.get('/experiment/buffer', async (req, res) => {
          return compressing.zip.compressDir(source, destination);
       };
 
-      const monitor = new Monitor(process, performance, 100);
+      const monitor = new Monitor(process, performance, 10);
       const startTime = monitor.getPerfTime();
       monitor.startMemoryMonitor();
 
@@ -67,7 +70,7 @@ app.get('/experiment/buffer', async (req, res) => {
 
 app.get('/experiment/pipe', async (req, res) => {
    try {
-      const monitor = new Monitor(process, performance, 100);
+      const monitor = new Monitor(process, performance, 10);
       const startTime = monitor.getPerfTime();
       monitor.startMemoryMonitor();
 

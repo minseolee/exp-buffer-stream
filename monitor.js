@@ -39,7 +39,7 @@ class Monitor {
             this.SUM_heapTotal += heapTotal;
 
             this.iteration++;
-        }, 10);
+        }, this._interval);
     }
 
     clearMemoryMonitor() {
