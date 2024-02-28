@@ -1,7 +1,6 @@
 const {doubleNextByte, mSecToSec} = require("./format");
 
 class Monitor {
-    _name = '';
     _proc = null;
     _perf = null;
     _interval = 100;
@@ -20,8 +19,7 @@ class Monitor {
 
     iteration = 0;
 
-    constructor(name, process, performance, interval) {
-        this._name = name;
+    constructor(process, performance, interval) {
         this._proc = process;
         this._perf = performance;
         this._interval = interval;
@@ -52,8 +50,8 @@ class Monitor {
         return this._perf.now();
     }
 
-    log(startTime, endTime) {
-        console.log(`===========${this._name} RESULT============`)
+    log(startTime, endTime, name, uuid) {
+        console.log(`===========${name} RESULT ${uuid}============`);
         console.log('run time(s)', mSecToSec(endTime - startTime));
         console.log('total iter', this.iteration);
         console.log('max(MB)', doubleNextByte(this.MAX_rss), doubleNextByte(this.MAX_external), doubleNextByte(this.MAX_heapUsed), doubleNextByte(this.MAX_heapTotal));
