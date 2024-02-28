@@ -9,11 +9,12 @@ const Monitor = require('./monitor');
 const compareFiles = require("./deep-shallow");
 
 
-const ISO_FILE_PATH = '/Volumes/isolation/exp-datas';
-
+// const ISO_FILE_PATH = '/Volumes/isolation/exp-datas';
+const ISO_FILE_PATH = __dirname;
 
 (async () => {
    async function expCopyFile() {
+      console.log('@@@@@ copyfile starts @@@@@');
       try {
          const monitor = new Monitor(process, performance, 10);
 
@@ -41,11 +42,14 @@ const ISO_FILE_PATH = '/Volumes/isolation/exp-datas';
          // await fs.promises.rm(path.join(__dirname, `/${uuid}.zip`));
       } catch (e) {
          console.error(e);
+      } finally {
+         console.log('@@@@@ copyfile ends @@@@@');
       }
    }
 
 
    async function expStreamPipe() {
+      console.log('@@@@@ stream starts @@@@@');
       try {
          const monitor = new Monitor(process, performance, 10);
          const startTime = monitor.getPerfTime();
@@ -103,6 +107,8 @@ const ISO_FILE_PATH = '/Volumes/isolation/exp-datas';
          // await fs.promises.rm(path.join(__dirname, `/${uuid}.zip`));
       } catch (e) {
          console.error(e);
+      } finally {
+         console.log('@@@@@ stream ends @@@@@');
       }
    }
 
