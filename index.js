@@ -59,41 +59,45 @@ const ISO_FILE_PATH = '/Volumes/isolation/exp-datas';
 
          /////////////---INITIALIZE---//////////////
 
-         async function zipByStream(sourceDir, targetDir, files) {
-            const archive = archiver('zip', { zlib: { level: 9 } });
-            const archiveStream = fs.createWriteStream(path.join(targetDir, `${uuid}.zip`));
-
-
-            archive.on('error', (err) => {
-               throw err;
-            });
-
-            archive.pipe(archiveStream);
-
-            const copyPromises = files.map(async file => {
-               const sourcePath = path.join(sourceDir, file);
-               const targetPath = file;
-
+         function deepCopyFile(sourcePath, destinationPath) {
+            return new Promise((resolve, reject) => {
                const readStream = fs.createReadStream(sourcePath);
+               const writeStream = fs.createWriteStream(destinationPath);
 
-               return new Promise((resolve, reject) => {
-                  readStream.on('error', reject);
-                  readStream.on('end', resolve);
+               readStream.on('error', reject);
+               writeStream.on('error', reject);
+               writeStream.on('finish', resolve);
 
-                  archive.append(readStream, { name: targetPath });
-               });
+               readStream.pipe(writeStream);
             });
+         }
 
-            await Promise.all(copyPromises);
-            await archive.finalize();
+         async function deepCopyFiles(sourceDir, destinationDir) {
+            try {
+               // Get a list of files in the source directory
+               const files = await fs.promises.readdir(sourceDir);
+               const promises = [];
+
+               // Iterate over each file
+               for (const file of files) {
+                  const sourcePath = path.join(sourceDir, file);
+                  const destinationPath = path.join(destinationDir, file);
+
+                  // Perform a deep copy for each file
+                   promises.push(deepCopyFile(sourcePath, destinationPath));
+               }
+
+               await Promise.all(promises);
+            } catch (error) {
+               console.error('Error copying files:', error);
+            }
          }
 
          const JSON_FILES = path.join(ISO_FILE_PATH, '/json_files');
-         const files = await fs.promises.readdir(JSON_FILES);
 
+         await fs.promises.mkdir(path.join(__dirname, uuid));
 
-         await zipByStream(JSON_FILES, __dirname, files);
-
+         await deepCopyFiles(JSON_FILES, path.join(__dirname, uuid));
 
          /////////////---FINALIZE---//////////////
 
@@ -107,8 +111,8 @@ const ISO_FILE_PATH = '/Volumes/isolation/exp-datas';
       }
    }
 
-   await expCopyFile();
-   await expStreamPipe();
+   // await expCopyFile();
+      await expStreamPipe();
 })();
 
 
