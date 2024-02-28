@@ -28,11 +28,6 @@ const ISO_FILE_PATH = '/Volumes/isolation/exp-datas';
 
          for (const file of files) {
             await fs.promises.copyFile(path.join(ISO_FILE_PATH, '/json_files', file), path.join(__dirname, uuid, file));
-
-            const compared = compareFiles(path.join(ISO_FILE_PATH, '/json_files', file), path.join(__dirname, uuid, file));
-            if (!compared.contentEqual || !compared.statsEqual) {
-               console.log('@@@@@ NOT SAME FILE @@@@@', file);
-            }
          }
 
          const archive = archiver('zip', {zlib: {level: 9}});
@@ -111,8 +106,8 @@ const ISO_FILE_PATH = '/Volumes/isolation/exp-datas';
       }
    }
 
-   // await expCopyFile();
-      await expStreamPipe();
+   await expCopyFile();
+   await expStreamPipe();
 })();
 
 

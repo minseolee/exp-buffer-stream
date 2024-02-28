@@ -21,12 +21,12 @@ function compareFiles(file1, file2) {
     };
 }
 
-const compared =
-    compareFiles(
-        '/Users/temp/Documents/gits/exp-buffer-stream/bc84a3c1-4fe3-4a10-abe8-f3d2d6803b60/data_1.json',
-        '/Volumes/isolation/exp-datas/json_files/data_1.json'
-        );
-
-console.log(compared.contentEqual, compared.statsEqual);
+// const compared =
+//     compareFiles(
+//         '/Users/temp/Documents/gits/exp-buffer-stream/bc84a3c1-4fe3-4a10-abe8-f3d2d6803b60/data_1.json',
+//         '/Volumes/isolation/exp-datas/json_files/data_1.json'
+//         );
+//
+// console.log(compared.contentEqual, compared.statsEqual);
 
 module.exports = compareFiles;

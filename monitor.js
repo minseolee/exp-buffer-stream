@@ -52,7 +52,7 @@ class Monitor {
 
     log(startTime, endTime, name, uuid) {
         console.log(`===========${name} RESULT ${uuid}============`);
-        console.log('run time(s)', mSecToSec(endTime - startTime));
+        console.log('run time(ms)', endTime - startTime);
         console.log('total iter', this.iteration);
         console.log('max(MB)', doubleNextByte(this.MAX_rss), doubleNextByte(this.MAX_external), doubleNextByte(this.MAX_heapUsed), doubleNextByte(this.MAX_heapTotal));
         console.log('avg(MB)', doubleNextByte(this.SUM_rss / this.iteration), doubleNextByte(this.SUM_external / this.iteration), doubleNextByte(this.SUM_heapUsed / this.iteration), doubleNextByte(this.SUM_heapTotal / this.iteration));
