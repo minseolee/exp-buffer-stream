@@ -33,7 +33,7 @@ const TEMPS_PATH = path.join(__dirname, '../', '../', 'temps');
 
          compressing.zip.compressDir(path.join(TEMPS_PATH, uuid), path.join(TEMPS_PATH, `${uuid}.zip`))
              .then(() => {
-                 const endTime = performance.now();
+                 const endTime = monitor.getPerfTime();
                  monitor.clearMemoryMonitor();
                  monitor.log(startTime, endTime, 'copyfile', uuid);
              });
@@ -100,7 +100,7 @@ const TEMPS_PATH = path.join(__dirname, '../', '../', 'temps');
 
 
       zipStream.on('end', () => {
-         const endTime = performance.now();
+         const endTime = monitor.getPerfTime();
          monitor.clearMemoryMonitor();
          monitor.log(startTime, endTime, 'streamCompressing', uuid);
       });
