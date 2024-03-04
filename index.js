@@ -6,12 +6,13 @@ const path = require("path");
 const archiver = require("archiver");
 const { v4: uuidV4 } = require('uuid');
 const Monitor = require('./monitor');
-const compressing = require("compressing")
-
+const compressing = require("compressing");
 
 const ISO_FILE_PATH = '/Volumes/isolation/exp-datas';
 const TEMPS_PATH = path.join(__dirname, '../', '../', 'temps');
-
+// const {performance} = require("perf_hooks");
+// const ISO_FILE_PATH = __dirname;
+// const TEMPS_PATH = path.join(__dirname, 'temps');
 
 (async () => {
    async function expCopyFile() {
