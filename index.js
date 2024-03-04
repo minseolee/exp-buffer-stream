@@ -27,8 +27,9 @@ const TEMPS_PATH = path.join(__dirname, '../', '../', 'temps');
          fs.mkdirSync(path.join(TEMPS_PATH, uuid));
 
 
-         for (const file of files) {
-            await fs.promises.copyFile(path.join(ISO_FILE_PATH, '/json_files', file), path.join(TEMPS_PATH, uuid, file));
+         const len = files.length;
+         for (let i = 0; i < len; i++) {
+            await fs.promises.copyFile(path.join(ISO_FILE_PATH, '/json_files', files[i]), path.join(TEMPS_PATH, uuid, files[i]));
          }
 
          compressing.zip.compressDir(path.join(TEMPS_PATH, uuid), path.join(TEMPS_PATH, `${uuid}.zip`))
@@ -64,10 +65,13 @@ const TEMPS_PATH = path.join(__dirname, '../', '../', 'temps');
    //           archive.append(path.join(ISO_FILE_PATH, '/json_files', file), { name: file });
    //       }
    //
-   //       archive.on('close', () => {
+   //      await archive.finalize();
+   //
+   //
+   //       writeStream.on('finish', () => {
    //           const endTime = performance.now();
    //           monitor.clearMemoryMonitor();
-   //           monitor.log(startTime, endTime, 'stream', uuid)
+   //           monitor.log(startTime, endTime, 'stream', uuid);
    //       })
    //
    //       // await fs.promises.rm(path.join(__dirname, `/${uuid}.zip`));
@@ -94,12 +98,13 @@ const TEMPS_PATH = path.join(__dirname, '../', '../', 'temps');
           .pipe(writeStream)
           .on('error', (err) => {console.error(err)});
 
-      for (const file of files) {
-         zipStream.addEntry(path.join(ISO_FILE_PATH, '/json_files', file));
+      const len = files.length;
+      for (let i = 0; i < len; i++) {
+         zipStream.addEntry(path.join(ISO_FILE_PATH, '/json_files', files[i]));
       }
 
 
-      zipStream.on('end', () => {
+      writeStream.on('finish', () => {
          const endTime = monitor.getPerfTime();
          monitor.clearMemoryMonitor();
          monitor.log(startTime, endTime, 'streamCompressing', uuid);
