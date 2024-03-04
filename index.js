@@ -1,6 +1,6 @@
 delete require.cache[require.resolve('fs')];
 
-
+const osu = require("os-utils");
 const fs = require("fs");
 const path = require("path");
 const archiver = require("archiver");
@@ -16,7 +16,7 @@ const TEMPS_PATH = path.join(__dirname, '../', '../', 'temps');
 (async () => {
    async function expCopyFile() {
       try {
-         const monitor = new Monitor(process, performance, 10);
+         const monitor = new Monitor(osu, process, performance, 10);
 
          const startTime = monitor.getPerfTime();
          monitor.startMemoryMonitor();
@@ -43,46 +43,8 @@ const TEMPS_PATH = path.join(__dirname, '../', '../', 'temps');
       }
    }
 
-
-   // async function expStreamPipe() {
-   //    try {
-   //       const monitor = new Monitor(process, performance, 10);
-   //       const startTime = monitor.getPerfTime();
-   //       monitor.startMemoryMonitor();
-   //       const uuid = uuidV4();
-   //
-   //       /////////////---INITIALIZE---//////////////
-   //
-   //       const JSON_FILES = path.join(ISO_FILE_PATH, '/json_files');
-   //       const files = await fs.promises.readdir(JSON_FILES);
-   //
-   //       const writeStream = fs.createWriteStream(path.join(TEMPS_PATH, `${uuid}.zip`));
-   //       const archive = archiver('zip', { zlib: { level: 9 } });
-   //
-   //       archive.pipe(writeStream);
-   //
-   //       for (const file of files) {
-   //           archive.append(path.join(ISO_FILE_PATH, '/json_files', file), { name: file });
-   //       }
-   //
-   //      await archive.finalize();
-   //
-   //
-   //       writeStream.on('finish', () => {
-   //           const endTime = performance.now();
-   //           monitor.clearMemoryMonitor();
-   //           monitor.log(startTime, endTime, 'stream', uuid);
-   //       })
-   //
-   //       // await fs.promises.rm(path.join(__dirname, `/${uuid}.zip`));
-   //    } catch (e) {
-   //       console.error(e);
-   //    }
-   // }
-
-
    async function expStreamCompressing() {
-      const monitor = new Monitor(process, performance, 10);
+      const monitor = new Monitor(osu, process, performance, 10);
 
       const startTime = monitor.getPerfTime();
       monitor.startMemoryMonitor();
@@ -113,7 +75,6 @@ const TEMPS_PATH = path.join(__dirname, '../', '../', 'temps');
 
 
    await expCopyFile();
-   // await expStreamPipe();
    await expStreamCompressing();
 })();
 
