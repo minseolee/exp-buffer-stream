@@ -5,7 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const archiver = require("archiver");
 const { v4: uuidV4 } = require('uuid');
-const Monitor = require('./monitor');
+const Monitor = require('./utils/monitor');
 const compressing = require("compressing");
 
 const ISO_FILE_PATH = '/Volumes/isolation/exp-datas';
@@ -36,7 +36,6 @@ const TEMPS_PATH = path.join(__dirname, '../', '../', 'temps');
          compressing.zip.compressDir(path.join(TEMPS_PATH, uuid), path.join(TEMPS_PATH, `${uuid}.zip`))
              .then(() => {
                  const endTime = monitor.getPerfTime();
-                 monitor.clearMemoryMonitor();
                  monitor.log(startTime, endTime, 'copyfile', uuid);
              });
       } catch (e) {
@@ -69,7 +68,6 @@ const TEMPS_PATH = path.join(__dirname, '../', '../', 'temps');
 
       writeStream.on('finish', () => {
          const endTime = monitor.getPerfTime();
-         monitor.clearMemoryMonitor();
          monitor.log(startTime, endTime, 'streamCompressing', uuid);
       });
    }

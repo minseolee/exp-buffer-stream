@@ -4,7 +4,7 @@ class Monitor {
     _osu = null;
     _proc = null;
     _perf = null;
-    _interval = 100;
+    _interval = 10;
 
     _memoryMonitor = null;
 
@@ -62,13 +62,15 @@ class Monitor {
 
     log(startTime, endTime, name, uuid) {
         console.log(`===========${name} RESULT ${uuid}============`);
-        console.log('run time(ms)', endTime - startTime);
+        console.log('run time(ms)', Number((endTime - startTime).toFixed(3)));
         console.log('total iter', this.iteration);
-        console.log('max(%)', Number(this.MAX_cpu.toFixed(2)));
-        console.log('avg(%)', Number((this.SUM_cpu / this.iteration).toFixed(2)));
+        console.log('max(%)', Number(this.MAX_cpu.toFixed(5)));
+        console.log('avg(%)', Number((this.SUM_cpu / this.iteration).toFixed(5)));
         console.log('max(MB)', doubleNextByte(this.MAX_rss), doubleNextByte(this.MAX_external), doubleNextByte(this.MAX_heapUsed), doubleNextByte(this.MAX_heapTotal));
         console.log('avg(MB)', doubleNextByte(this.SUM_rss / this.iteration), doubleNextByte(this.SUM_external / this.iteration), doubleNextByte(this.SUM_heapUsed / this.iteration), doubleNextByte(this.SUM_heapTotal / this.iteration));
         console.log('=============================')
+
+        this.clearMemoryMonitor();
     }
 }
 
