@@ -6,6 +6,7 @@ import zipfile
 import hashlib
 import base64
 import shutil
+import subprocess
 
 
 def generate_random_string(length):
@@ -41,21 +42,29 @@ def get_file_size(file_path):
     return os.stat(file_path)
 
 
-if __name__ == "__main__":
-    total_files = 5
-    target_file_size_mb = 2
+def file_creation(to_total_files, to_target_file_size_mb):
+    total_files = to_total_files
+    target_file_size_mb = to_target_file_size_mb
     target_file_size_bytes = target_file_size_mb * 1024 * 1024  # MB to bytes
 
     if os.path.exists("json_files"): shutil.rmtree("json_files")
-
     os.makedirs("json_files")
+
     for i in range(1, total_files + 1):
         file_name = f"data_{i}.json"
         file_path = os.path.join("json_files", file_name)
         generate_json_file(file_path, target_file_size_bytes)
         print(f"Generated: {file_path}")
 
-    create_zip("./json_files", "uuid.zip")
-    print(get_file_size("uuid.zip"))
-    print(hash_file("uuid.zip"))
+
+if __name__ == "__main__":
+    for i in range(1, 10):
+        file_creation(to_total_files=i, to_target_file_size_mb=2)
+        process = subprocess.Popen(["node", "index.js"])
+        process.wait()
+        print(i, "done")
+
+    # create_zip("./json_files", "uuid.zip")
+    # print(get_file_size("uuid.zip"))
+    # print(hash_file("uuid.zip"))
 

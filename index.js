@@ -9,6 +9,7 @@ const compressing = require("compressing");
 const getFileSize = require("./utils/filesize");
 const FM = require("./utils/file-manager");
 
+
 // const ISO_FILE_PATH = '/Volumes/isolation/exp-datas';
 
 const SRC_PATH = path.join(__dirname, 'json_files');
@@ -28,6 +29,7 @@ const csvName__copy = process.env.CSVNAME__COPY || "copy.csv";
 
 const csvDir__stream = process.env.CSVDIR__STREAM || __dirname;
 const csvName__stream = process.env.CSVNAME__STREAM || "stream.csv";
+
 
 (async () => {
    async function expCopyFile() {
@@ -60,7 +62,7 @@ const csvName__stream = process.env.CSVNAME__STREAM || "stream.csv";
                  // const hash = await getFileHash(path.join(TEMPS_PATH, `${uuid}.zip`));
                  const size = await getFileSize(path.join(DST_PATH, `${uuid}.zip`));
 
-                 monitor.log(startTime, endTime, 'copyfile', uuid, Number(size === sizeBe));
+                 monitor.log(startTime, endTime, 'COPY', uuid, size);
                  monitor.clearMemoryMonitor();
 
                  fs.rmSync(path.join(DST_PATH, `${uuid}`), {force: true, recursive: true});
@@ -107,7 +109,7 @@ const csvName__stream = process.env.CSVNAME__STREAM || "stream.csv";
             // const hash = await getFileHash(path.join(DST_PATH, `${uuid}.zip`));
             const size = await getFileSize(path.join(DST_PATH, `${uuid}.zip`));
 
-            monitor.log(startTime, endTime, 'streamCompressing', uuid, Number(size === sizeBe));
+            monitor.log(startTime, endTime, 'STREAM', uuid, size);
             monitor.clearMemoryMonitor();
 
             fs.rmSync(path.join(DST_PATH, `${uuid}.zip`));
@@ -118,7 +120,8 @@ const csvName__stream = process.env.CSVNAME__STREAM || "stream.csv";
    }
 
    await expStreamCompressing();
-   await expCopyFile();
+   setTimeout(() => expCopyFile(), 1000);
+   // await expCopyFile();
 })();
 
 
