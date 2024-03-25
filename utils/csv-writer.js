@@ -11,7 +11,7 @@ class CsvWriter {
     }
 
     async append(s) {
-        await fs.promises.appendFile(path.join(this._dir, this._filename), s);
+        await fs.promises.appendFile(path.join(this._dir, this._filename), s + "\n");
     }
 }
 
