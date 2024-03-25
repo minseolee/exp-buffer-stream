@@ -2,5 +2,6 @@
 /.idea
 /json_files
 /temp
+/dst
 .DS_Store
 *.zip
