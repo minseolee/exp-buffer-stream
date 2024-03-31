@@ -51,17 +51,6 @@ def binary_file_creation(to_total_files, to_target_file_size_mb):
 
 
 if __name__ == "__main__":
-    # 랜덤스트링: 개수 고정, 크기 증가
-    i = 1
-    while i <= SIZE_INCREMENT:
-        for _ in range(0, ITERATION):
-            json_file_creation(to_total_files=128, to_target_file_size_mb=i)
-            process = subprocess.Popen(["node", "index.js"])
-            process.wait()
-            print(i, "done")
-            file_deletion()
-        i *= 2
-
     # 랜덤스트링: 크기 고정, 개수 증가
     i = 1
     while i <= QTT_INCREMENT:
@@ -73,11 +62,11 @@ if __name__ == "__main__":
             file_deletion()
         i *= 2
 
-    # 바이너리: 개수 고정, 크기 증가
+    # 랜덤스트링: 개수 고정, 크기 증가
     i = 1
     while i <= SIZE_INCREMENT:
         for _ in range(0, ITERATION):
-            binary_file_creation(to_total_files=128, to_target_file_size_mb=i)
+            json_file_creation(to_total_files=128, to_target_file_size_mb=i)
             process = subprocess.Popen(["node", "index.js"])
             process.wait()
             print(i, "done")
@@ -95,4 +84,14 @@ if __name__ == "__main__":
             file_deletion()
         i *= 2
 
+    # 바이너리: 개수 고정, 크기 증가
+    i = 1
+    while i <= SIZE_INCREMENT:
+        for _ in range(0, ITERATION):
+            binary_file_creation(to_total_files=128, to_target_file_size_mb=i)
+            process = subprocess.Popen(["node", "index.js"])
+            process.wait()
+            print(i, "done")
+            file_deletion()
+        i *= 2
 

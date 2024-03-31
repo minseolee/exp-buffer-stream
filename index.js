@@ -12,7 +12,7 @@ const FM = require("./utils/file-manager");
 
 // const ISO_FILE_PATH = '/Volumes/isolation/exp-datas';
 
-const SRC_PATH = path.join(__dirname, 'json_files');
+const SRC_PATH = path.join(__dirname, 'target_files');
 const DST_PATH = path.join(__dirname, 'dst');
 
 // const {performance} = require("perf_hooks");
