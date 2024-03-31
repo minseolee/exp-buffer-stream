@@ -62,7 +62,7 @@ const csvName__stream = process.env.CSVNAME__STREAM || "stream.csv";
                  // const hash = await getFileHash(path.join(TEMPS_PATH, `${uuid}.zip`));
                  const size = await getFileSize(path.join(DST_PATH, `${uuid}.zip`));
 
-                 monitor.log(startTime, endTime, 'COPY', uuid, size);
+                 monitor.log(len, startTime, endTime, 'COPY', uuid, size);
                  monitor.clearMemoryMonitor();
 
                  fs.rmSync(path.join(DST_PATH, `${uuid}`), {force: true, recursive: true});
@@ -109,7 +109,7 @@ const csvName__stream = process.env.CSVNAME__STREAM || "stream.csv";
             // const hash = await getFileHash(path.join(DST_PATH, `${uuid}.zip`));
             const size = await getFileSize(path.join(DST_PATH, `${uuid}.zip`));
 
-            monitor.log(startTime, endTime, 'STREAM', uuid, size);
+            monitor.log(len, startTime, endTime, 'STREAM', uuid, size);
             monitor.clearMemoryMonitor();
 
             fs.rmSync(path.join(DST_PATH, `${uuid}.zip`));
