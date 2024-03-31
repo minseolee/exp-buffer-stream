@@ -60,7 +60,9 @@ if __name__ == "__main__":
     while i <= QTT_INCREMENT:
         for _ in range(0, ITERATION):
             json_file_creation(to_total_files=i, to_target_file_size_mb=8)
-            process = subprocess.Popen(["node", "index.js"])
+            env = os.environ.copy()
+            env["EACHSIZE"] = "8"
+            process = subprocess.Popen(["node", "index.js"], env=env)
             process.wait()
             print(i, f"{current}/{TOTAL}", f"{round(current / TOTAL, 2)}%")
             file_deletion()
@@ -72,7 +74,9 @@ if __name__ == "__main__":
     while i <= SIZE_INCREMENT:
         for _ in range(0, ITERATION):
             json_file_creation(to_total_files=128, to_target_file_size_mb=i)
-            process = subprocess.Popen(["node", "index.js"])
+            env = os.environ.copy()
+            env["EACHSIZE"] = str(i)
+            process = subprocess.Popen(["node", "index.js"], env=env)
             process.wait()
             print(i, f"{current}/{TOTAL}", f"{round(current / TOTAL, 2)}%")
             file_deletion()
@@ -84,7 +88,9 @@ if __name__ == "__main__":
     while i <= QTT_INCREMENT:
         for _ in range(0, ITERATION):
             binary_file_creation(to_total_files=i, to_target_file_size_mb=8)
-            process = subprocess.Popen(["node", "index.js"])
+            env = os.environ.copy()
+            env["EACHSIZE"] = "8"
+            process = subprocess.Popen(["node", "index.js"], env=env)
             process.wait()
             print(i, f"{current}/{TOTAL}", f"{round(current / TOTAL, 2)}%")
             file_deletion()
@@ -96,7 +102,9 @@ if __name__ == "__main__":
     while i <= SIZE_INCREMENT:
         for _ in range(0, ITERATION):
             binary_file_creation(to_total_files=128, to_target_file_size_mb=i)
-            process = subprocess.Popen(["node", "index.js"])
+            env = os.environ.copy()
+            env["EACHSIZE"] = str(i)
+            process = subprocess.Popen(["node", "index.js"], env=env)
             process.wait()
             print(i, f"{current}/{TOTAL}", f"{round(current / TOTAL, 2)}%")
             file_deletion()
