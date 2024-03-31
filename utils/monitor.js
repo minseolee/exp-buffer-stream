@@ -73,7 +73,7 @@ class Monitor {
         return this._perf.now();
     }
 
-    log(quantity, startTime, endTime, name, uuid, size) {
+    log(quantity, startTime, endTime, name, uuid, totalSize, eachSize) {
         const runTime = Number((endTime - startTime).toFixed(3));
         const totalIter = this.iteration;
         const minCPU = Number(this.MIN_cpu.toFixed(5));
@@ -87,7 +87,7 @@ class Monitor {
 
 
         console.log(`===========${name} RESULT ============`);
-        console.log('size ', size);
+        console.log('size ', totalSize);
         console.log('run time(ms)', runTime);
         console.log('total iter', totalIter);
         console.log('min(%)', minCPU);
@@ -97,7 +97,7 @@ class Monitor {
         console.log('max(MB)', maxMEM);
         console.log('avg(MB)', avgMEM);
         console.log('=============================')
-        this._csvWriter.append(`${quantity}, ${size}, ${this._csvInfo.eachSize}, ${this._csvInfo.totalSize}, ${runTime}, ${totalIter}, ${minCPU}, ${maxCPU}, ${avgCPU}, ${minMEM}, ${maxMEM}, ${avgMEM}`);
+        this._csvWriter.append(`${quantity}, ${eachSize}, ${totalSize}, ${this._csvInfo.eachSize}, ${this._csvInfo.totalSize}, ${runTime}, ${totalIter}, ${minCPU}, ${maxCPU}, ${avgCPU}, ${minMEM}, ${maxMEM}, ${avgMEM}`);
 
         this.clearMemoryMonitor();
     }

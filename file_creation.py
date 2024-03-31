@@ -4,12 +4,16 @@ import random
 import string
 import shutil
 import subprocess
+import math
 
 
 SIZE_INCREMENT = 128
 QTT_INCREMENT = 1024
 ITERATION = 3
 
+TOTAL = math.floor(((math.log2(QTT_INCREMENT) + math.log2(SIZE_INCREMENT)) * ITERATION) * 2)
+
+current = 1
 
 def file_deletion():
     shutil.rmtree("target_files")
@@ -58,8 +62,9 @@ if __name__ == "__main__":
             json_file_creation(to_total_files=i, to_target_file_size_mb=8)
             process = subprocess.Popen(["node", "index.js"])
             process.wait()
-            print(i, "done")
+            print(i, f"{current}/{TOTAL}", f"{round(current / TOTAL, 2)}%")
             file_deletion()
+            current += 1
         i *= 2
 
     # 랜덤스트링: 개수 고정, 크기 증가
@@ -69,8 +74,9 @@ if __name__ == "__main__":
             json_file_creation(to_total_files=128, to_target_file_size_mb=i)
             process = subprocess.Popen(["node", "index.js"])
             process.wait()
-            print(i, "done")
+            print(i, f"{current}/{TOTAL}", f"{round(current / TOTAL, 2)}%")
             file_deletion()
+            current += 1
         i *= 2
 
     # 바이너리: 크기 고정, 개수 증가
@@ -80,8 +86,9 @@ if __name__ == "__main__":
             binary_file_creation(to_total_files=i, to_target_file_size_mb=8)
             process = subprocess.Popen(["node", "index.js"])
             process.wait()
-            print(i, "done")
+            print(i, f"{current}/{TOTAL}", f"{round(current / TOTAL, 2)}%")
             file_deletion()
+            current += 1
         i *= 2
 
     # 바이너리: 개수 고정, 크기 증가
@@ -91,7 +98,8 @@ if __name__ == "__main__":
             binary_file_creation(to_total_files=128, to_target_file_size_mb=i)
             process = subprocess.Popen(["node", "index.js"])
             process.wait()
-            print(i, "done")
+            print(i, f"{current}/{TOTAL}", f"{round(current / TOTAL, 2)}%")
             file_deletion()
+            current += 1
         i *= 2
 
