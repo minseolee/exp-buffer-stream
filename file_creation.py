@@ -62,6 +62,7 @@ if __name__ == "__main__":
             json_file_creation(to_total_files=i, to_target_file_size_mb=8)
             env = os.environ.copy()
             env["EACHSIZE"] = "8"
+            env["FILETYPE"] = ".json"
             process = subprocess.Popen(["node", "index.js"], env=env)
             process.wait()
             print(i, f"{current}/{TOTAL}", f"{round(current / TOTAL, 2)}%")
@@ -76,6 +77,7 @@ if __name__ == "__main__":
             json_file_creation(to_total_files=128, to_target_file_size_mb=i)
             env = os.environ.copy()
             env["EACHSIZE"] = str(i)
+            env["FILETYPE"] = ".json"
             process = subprocess.Popen(["node", "index.js"], env=env)
             process.wait()
             print(i, f"{current}/{TOTAL}", f"{round(current / TOTAL, 2)}%")
@@ -90,6 +92,7 @@ if __name__ == "__main__":
             binary_file_creation(to_total_files=i, to_target_file_size_mb=8)
             env = os.environ.copy()
             env["EACHSIZE"] = "8"
+            env["FILETYPE"] = ".bin"
             process = subprocess.Popen(["node", "index.js"], env=env)
             process.wait()
             print(i, f"{current}/{TOTAL}", f"{round(current / TOTAL, 2)}%")
@@ -104,6 +107,7 @@ if __name__ == "__main__":
             binary_file_creation(to_total_files=128, to_target_file_size_mb=i)
             env = os.environ.copy()
             env["EACHSIZE"] = str(i)
+            env["FILETYPE"] = ".bin"
             process = subprocess.Popen(["node", "index.js"], env=env)
             process.wait()
             print(i, f"{current}/{TOTAL}", f"{round(current / TOTAL, 2)}%")

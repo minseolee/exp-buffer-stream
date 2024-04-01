@@ -24,6 +24,8 @@ const sizeBe = process.env.SIZEBE || 0;
 const eachSize = process.env.EACHSIZE || 0;
 const totalSize = process.env.TOTALSIZE || 0;
 
+const fileType = process.env.FILETYPE || 0;
+
 const csvDir__copy = process.env.CSVDIR__COPY || __dirname;
 const csvName__copy = process.env.CSVNAME__COPY || "copy.csv";
 
@@ -62,7 +64,7 @@ const csvName__stream = process.env.CSVNAME__STREAM || "stream.csv";
                  // const hash = await getFileHash(path.join(TEMPS_PATH, `${uuid}.zip`));
                  const size = await getFileSize(path.join(DST_PATH, `${uuid}.zip`));
 
-                 monitor.log(len, startTime, endTime, 'COPY', uuid, size, eachSize);
+                 monitor.log(len, startTime, endTime, 'COPY', uuid, size, eachSize, fileType);
                  monitor.clearMemoryMonitor();
 
                  fs.rmSync(path.join(DST_PATH, `${uuid}`), {force: true, recursive: true});
@@ -109,7 +111,7 @@ const csvName__stream = process.env.CSVNAME__STREAM || "stream.csv";
             // const hash = await getFileHash(path.join(DST_PATH, `${uuid}.zip`));
             const size = await getFileSize(path.join(DST_PATH, `${uuid}.zip`));
 
-            monitor.log(len, startTime, endTime, 'STREAM', uuid, size, eachSize);
+            monitor.log(len, startTime, endTime, 'STREAM', uuid, size, eachSize, fileType);
             monitor.clearMemoryMonitor();
 
             fs.rmSync(path.join(DST_PATH, `${uuid}.zip`));
