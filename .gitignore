@@ -3,5 +3,6 @@
 /json_files
 /temp
 /dst
+/target_files
 .DS_Store
 *.zip
